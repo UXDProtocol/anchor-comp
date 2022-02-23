@@ -1,4 +1,4 @@
-# anchor_mangov3
+# anchor-mangov3
 
 Anchor wrapper for MangoMarketV3 Solana program.
 

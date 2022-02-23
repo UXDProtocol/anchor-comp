@@ -313,6 +313,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "anchor-mangov3"
+version = "0.1.0"
+dependencies = [
+ "anchor-lang 0.22.0",
+ "mango",
+ "solana-program",
+]
+
+[[package]]
 name = "anchor-syn"
 version = "0.20.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -348,15 +357,6 @@ dependencies = [
  "sha2",
  "syn",
  "thiserror",
-]
-
-[[package]]
-name = "anchor_mangov3"
-version = "0.1.0"
-dependencies = [
- "anchor-lang 0.22.0",
- "mango",
- "solana-program",
 ]
 
 [[package]]
