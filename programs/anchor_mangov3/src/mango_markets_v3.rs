@@ -1,4 +1,6 @@
 use anchor_lang::prelude::*;
+use mango::matching::OrderType;
+use mango::matching::Side;
 use mango::state::MAX_PAIRS;
 
 mod mango_program_id {
@@ -41,11 +43,8 @@ pub fn create_mango_account<'a, 'b, 'c, 'info>(
         ctx.accounts.payer.key,
         account_num,
     )?;
-    solana_program::program::invoke(
-        &ix,
-        &ToAccountInfos::to_account_infos(&ctx),
-    )
-    .map_err(Into::into)
+    solana_program::program::invoke(&ix, &ToAccountInfos::to_account_infos(&ctx))
+        .map_err(Into::into)
 }
 
 pub fn deposit<'a, 'b, 'c, 'info>(
@@ -76,10 +75,10 @@ pub fn deposit<'a, 'b, 'c, 'info>(
 pub fn withdraw<'a, 'b, 'c, 'info>(
     ctx: CpiContext<'a, 'b, 'c, 'info, Withdraw<'info>>,
     quantity: u64,
-    allow_borrow: bool
+    allow_borrow: bool,
 ) -> Result<()> {
     check_program_account(ctx.accounts.program.key);
-    let open_orders = ctx.remaining_accounts.get(0..MAX_PAIRS); // This could use something else
+    let open_orders = ctx.remaining_accounts.get(0..MAX_PAIRS);
     let ix = mango::instruction::withdraw(
         &mango_program_id::ID,
         ctx.accounts.mango_group.key,
@@ -94,6 +93,52 @@ pub fn withdraw<'a, 'b, 'c, 'info>(
         open_orders.map(|oo| oo.key),
         quantity,
         allow_borrow,
+    )?;
+    solana_program::program::invoke_signed(
+        &ix,
+        &ToAccountInfos::to_account_infos(&ctx),
+        ctx.signer_seeds,
+    )
+    .map_err(Into::into)
+}
+
+pub fn place_perp_order2<'a, 'b, 'c, 'info>(
+    ctx: CpiContext<'a, 'b, 'c, 'info, PlacePerpOrder2<'info>>,
+    side: Side,
+    price: i64,
+    max_base_quantity: i64,
+    max_quote_quantity: i64,
+    client_order_id: u64,
+    order_type: OrderType,
+    reduce_only: bool,
+    // Send 0 if you want to ignore time in force
+    expiry_timestamp: Option<u64>,
+    // maximum number of FillEvents before terminating
+    limit: u8,
+) -> Result<()> {
+    check_program_account(ctx.accounts.program.key);
+    let open_orders = ctx.remaining_accounts.get(0..MAX_PAIRS); // This could use something else
+    let ix = mango::instruction::place_perp_order2(
+        &mango_program_id::ID,
+        ctx.accounts.mango_group.key,
+        ctx.accounts.mango_account.key,
+        ctx.accounts.owner.key,
+        ctx.accounts.mango_cache.key,
+        ctx.accounts.perp_market.key,
+        ctx.accounts.bids.key,
+        ctx.accounts.asks.key,
+        ctx.accounts.event_queue.key,
+        ctx.accounts.referrer_mango_account.key(),
+        open_orders.map(|oo| oo.key),
+        side,
+        price,
+        max_base_quantity,
+        max_quote_quantity,
+        client_order_id,
+        order_type,
+        reduce_only,
+        expiry_timestamp,
+        limit,
     )?;
     solana_program::program::invoke_signed(
         &ix,
@@ -136,6 +181,21 @@ pub struct Withdraw<'info> {
     node_bank: AccountInfo<'info>,
     vault: AccountInfo<'info>,
     owner_token_account: AccountInfo<'info>,
+}
+
+/// To reference OpenOrders, add them to the accounts [0-MAX_PAIRS] of the
+/// CpiContext's `remaining_accounts` Vec.
+#[derive(Accounts)]
+pub struct PlacePerpOrder2<'info> {
+    mango_group: AccountInfo<'info>,
+    mango_account: AccountInfo<'info>,
+    owner: AccountInfo<'info>,
+    mango_cache: AccountInfo<'info>,
+    perp_market: AccountInfo<'info>,
+    bids: AccountInfo<'info>,
+    asks: AccountInfo<'info>,
+    event_queue: AccountInfo<'info>,
+    referrer_mango_account: AccountInfo<'info>,
 }
 
 /// Checks that the supplied program ID is the correct one
