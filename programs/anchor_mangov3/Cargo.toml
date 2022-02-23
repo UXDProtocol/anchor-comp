@@ -1,0 +1,25 @@
+[package]
+name = "anchor_mangov3"
+version = "0.1.0"
+description = "Created with Anchor"
+edition = "2021"
+authors = ["alexcamill@gmail.com UXDProtocol::Acammm"]
+license = "Apache-2.0"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name = "anchor_mangov3"
+
+[features]
+no-entrypoint = []
+no-idl = []
+no-log-ix-name = []
+cpi = ["no-entrypoint"]
+default = ["development"] # `anchor build -- --no-default-features --features production` to override
+production = []
+development = []
+
+[dependencies]
+solana-program = "1.8.5"
+anchor-lang = "0.22.0"
+mango = { git = "https://github.com/blockworks-foundation/mango-v3", features = ["no-entrypoint"] }
