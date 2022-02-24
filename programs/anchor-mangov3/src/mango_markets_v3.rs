@@ -15,25 +15,15 @@ pub struct MangoMarketV3;
 
 impl anchor_lang::Id for MangoMarketV3 {
     fn id() -> Pubkey {
-        mango_program_id
+        mango_program_id::ID
     }
 }
-
-// impl anchor_lang::AccountDeserialize for Mango {
-//     fn try_deserialize(buf: &mut &[u8]) -> Result<Self, ProgramError> {
-//         Mango::try_deserialize_unchecked(buf)
-//     }
-
-//     fn try_deserialize_unchecked(_buf: &mut &[u8]) -> Result<Self, ProgramError> {
-//         Ok(Mango)
-//     }
-// }
 
 pub fn create_mango_account<'a, 'b, 'c, 'info>(
     ctx: CpiContext<'a, 'b, 'c, 'info, CreateMangoAccount<'info>>,
     account_num: u64,
 ) -> Result<()> {
-    check_program_account(mango_program_id);
+    check_program_account(ctx.program.key)?;
     let ix = mango::instruction::create_mango_account(
         &mango_program_id::ID,
         ctx.accounts.mango_group.key,
@@ -51,7 +41,7 @@ pub fn deposit<'a, 'b, 'c, 'info>(
     ctx: CpiContext<'a, 'b, 'c, 'info, Deposit<'info>>,
     quantity: u64,
 ) -> Result<()> {
-    check_program_account(ctx.accounts.program.key);
+    check_program_account(ctx.program.key)?;
     let ix = mango::instruction::deposit(
         &mango_program_id::ID,
         ctx.accounts.mango_group.key,
@@ -77,8 +67,10 @@ pub fn withdraw<'a, 'b, 'c, 'info>(
     quantity: u64,
     allow_borrow: bool,
 ) -> Result<()> {
-    check_program_account(ctx.accounts.program.key);
-    let open_orders = ctx.remaining_accounts.get(0..MAX_PAIRS);
+    check_program_account(ctx.program.key)?;
+    let remaining_accounts_iter = ctx.remaining_accounts.iter();
+    let mut open_orders = vec![Pubkey::default(); MAX_PAIRS];
+    remaining_accounts_iter.for_each(|ai| open_orders.push(*ai.key));
     let ix = mango::instruction::withdraw(
         &mango_program_id::ID,
         ctx.accounts.mango_group.key,
@@ -90,7 +82,7 @@ pub fn withdraw<'a, 'b, 'c, 'info>(
         ctx.accounts.vault.key,
         ctx.accounts.token_account.key,
         ctx.accounts.signer.key,
-        open_orders.map(|oo| oo.key),
+        open_orders.as_slice(),
         quantity,
         allow_borrow,
     )?;
@@ -116,8 +108,11 @@ pub fn place_perp_order2<'a, 'b, 'c, 'info>(
     // maximum number of FillEvents before terminating
     limit: u8,
 ) -> Result<()> {
-    check_program_account(ctx.accounts.program.key);
-    let open_orders = ctx.remaining_accounts.get(0..MAX_PAIRS); // This could use something else
+    check_program_account(ctx.program.key)?;
+    let mut remaining_accounts_iter = ctx.remaining_accounts.iter();
+    let referral = remaining_accounts_iter.next();
+    let mut open_orders = vec![Pubkey::default(); MAX_PAIRS];
+    remaining_accounts_iter.for_each(|ai| open_orders.push(*ai.key));
     let ix = mango::instruction::place_perp_order2(
         &mango_program_id::ID,
         ctx.accounts.mango_group.key,
@@ -128,8 +123,8 @@ pub fn place_perp_order2<'a, 'b, 'c, 'info>(
         ctx.accounts.bids.key,
         ctx.accounts.asks.key,
         ctx.accounts.event_queue.key,
-        ctx.accounts.referrer_mango_account.key(),
-        open_orders.map(|oo| oo.key),
+        referral.map(|r| r.key),
+        open_orders.as_slice(),
         side,
         price,
         max_base_quantity,
@@ -150,58 +145,88 @@ pub fn place_perp_order2<'a, 'b, 'c, 'info>(
 
 #[derive(Accounts)]
 pub struct CreateMangoAccount<'info> {
-    mango_group: AccountInfo<'info>,
-    mango_account: AccountInfo<'info>,
-    owner: AccountInfo<'info>,
-    system_prog: AccountInfo<'info>,
-    payer: AccountInfo<'info>,
+    /// CHECK: Mango CPI
+    mango_group: UncheckedAccount<'info>,
+    /// CHECK: Mango CPI
+    mango_account: UncheckedAccount<'info>,
+    /// CHECK: Mango CPI
+    owner: UncheckedAccount<'info>,
+    /// CHECK: Mango CPI
+    system_prog: UncheckedAccount<'info>,
+    /// CHECK: Mango CPI
+    payer: UncheckedAccount<'info>,
 }
 
 #[derive(Accounts)]
 pub struct Deposit<'info> {
-    mango_group: AccountInfo<'info>,
-    mango_account: AccountInfo<'info>,
-    owner: AccountInfo<'info>,
-    mango_cache: AccountInfo<'info>,
-    root_bank: AccountInfo<'info>,
-    node_bank: AccountInfo<'info>,
-    vault: AccountInfo<'info>,
-    owner_token_account: AccountInfo<'info>,
+    /// CHECK: Mango CPI
+    mango_group: UncheckedAccount<'info>,
+    /// CHECK: Mango CPI
+    mango_account: UncheckedAccount<'info>,
+    /// CHECK: Mango CPI
+    owner: UncheckedAccount<'info>,
+    /// CHECK: Mango CPI
+    mango_cache: UncheckedAccount<'info>,
+    /// CHECK: Mango CPI
+    root_bank: UncheckedAccount<'info>,
+    /// CHECK: Mango CPI
+    node_bank: UncheckedAccount<'info>,
+    /// CHECK: Mango CPI
+    vault: UncheckedAccount<'info>,
+    /// CHECK: Mango CPI
+    owner_token_account: UncheckedAccount<'info>,
 }
 
 /// To reference OpenOrders, add them to the accounts [0-MAX_PAIRS] of the
 /// CpiContext's `remaining_accounts` Vec.
 #[derive(Accounts)]
 pub struct Withdraw<'info> {
-    mango_group: AccountInfo<'info>,
-    mango_account: AccountInfo<'info>,
-    owner: AccountInfo<'info>,
-    mango_cache: AccountInfo<'info>,
-    root_bank: AccountInfo<'info>,
-    node_bank: AccountInfo<'info>,
-    vault: AccountInfo<'info>,
-    owner_token_account: AccountInfo<'info>,
+    /// CHECK: Mango CPI
+    mango_group: UncheckedAccount<'info>,
+    /// CHECK: Mango CPI
+    mango_account: UncheckedAccount<'info>,
+    /// CHECK: Mango CPI
+    owner: UncheckedAccount<'info>,
+    /// CHECK: Mango CPI
+    mango_cache: UncheckedAccount<'info>,
+    /// CHECK: Mango CPI
+    root_bank: UncheckedAccount<'info>,
+    /// CHECK: Mango CPI
+    node_bank: UncheckedAccount<'info>,
+    /// CHECK: Mango CPI
+    vault: UncheckedAccount<'info>,
+    /// CHECK: Mango CPI
+    token_account: UncheckedAccount<'info>,
+    /// CHECK: Mango CPI
+    signer: UncheckedAccount<'info>,
 }
 
 /// To reference OpenOrders, add them to the accounts [0-MAX_PAIRS] of the
 /// CpiContext's `remaining_accounts` Vec.
 #[derive(Accounts)]
 pub struct PlacePerpOrder2<'info> {
-    mango_group: AccountInfo<'info>,
-    mango_account: AccountInfo<'info>,
-    owner: AccountInfo<'info>,
-    mango_cache: AccountInfo<'info>,
-    perp_market: AccountInfo<'info>,
-    bids: AccountInfo<'info>,
-    asks: AccountInfo<'info>,
-    event_queue: AccountInfo<'info>,
-    referrer_mango_account: AccountInfo<'info>,
+    /// CHECK: Mango CPI
+    mango_group: UncheckedAccount<'info>,
+    /// CHECK: Mango CPI
+    mango_account: UncheckedAccount<'info>,
+    /// CHECK: Mango CPI
+    owner: UncheckedAccount<'info>,
+    /// CHECK: Mango CPI
+    mango_cache: UncheckedAccount<'info>,
+    /// CHECK: Mango CPI
+    perp_market: UncheckedAccount<'info>,
+    /// CHECK: Mango CPI
+    bids: UncheckedAccount<'info>,
+    /// CHECK: Mango CPI
+    asks: UncheckedAccount<'info>,
+    /// CHECK: Mango CPI
+    event_queue: UncheckedAccount<'info>,
 }
 
 /// Checks that the supplied program ID is the correct one
-pub fn check_program_account(mango_program_id: &Pubkey) -> ProgramResult {
+pub fn check_program_account(mango_program_id: &Pubkey) -> Result<()> {
     if !mango_program_id.eq(&mango_program_id::ID) {
-        error!("Wrong program ID");
+        error!(ErrorCode::InvalidProgramId);
     }
     Ok(())
 }

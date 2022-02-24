@@ -15,7 +15,7 @@ no-entrypoint = []
 no-idl = []
 no-log-ix-name = []
 cpi = ["no-entrypoint"]
-default = ["development"] # `anchor build -- --no-default-features --features production` to override
+default = ["production"] # `anchor build -- --no-default-features --features development` to override
 production = []
 development = []
 
