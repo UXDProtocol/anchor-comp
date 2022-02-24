@@ -146,35 +146,35 @@ pub fn place_perp_order2<'a, 'b, 'c, 'info>(
 #[derive(Accounts)]
 pub struct CreateMangoAccount<'info> {
     /// CHECK: Mango CPI
-    mango_group: UncheckedAccount<'info>,
+    mango_group: AccountInfo<'info>,
     /// CHECK: Mango CPI
-    mango_account: UncheckedAccount<'info>,
+    mango_account: AccountInfo<'info>,
     /// CHECK: Mango CPI
-    owner: UncheckedAccount<'info>,
+    owner: AccountInfo<'info>,
     /// CHECK: Mango CPI
-    system_prog: UncheckedAccount<'info>,
+    system_prog: AccountInfo<'info>,
     /// CHECK: Mango CPI
-    payer: UncheckedAccount<'info>,
+    payer: AccountInfo<'info>,
 }
 
 #[derive(Accounts)]
 pub struct Deposit<'info> {
     /// CHECK: Mango CPI
-    mango_group: UncheckedAccount<'info>,
+    mango_group: AccountInfo<'info>,
     /// CHECK: Mango CPI
-    mango_account: UncheckedAccount<'info>,
+    mango_account: AccountInfo<'info>,
     /// CHECK: Mango CPI
-    owner: UncheckedAccount<'info>,
+    owner: AccountInfo<'info>,
     /// CHECK: Mango CPI
-    mango_cache: UncheckedAccount<'info>,
+    mango_cache: AccountInfo<'info>,
     /// CHECK: Mango CPI
-    root_bank: UncheckedAccount<'info>,
+    root_bank: AccountInfo<'info>,
     /// CHECK: Mango CPI
-    node_bank: UncheckedAccount<'info>,
+    node_bank: AccountInfo<'info>,
     /// CHECK: Mango CPI
-    vault: UncheckedAccount<'info>,
+    vault: AccountInfo<'info>,
     /// CHECK: Mango CPI
-    owner_token_account: UncheckedAccount<'info>,
+    owner_token_account: AccountInfo<'info>,
 }
 
 /// To reference OpenOrders, add them to the accounts [0-MAX_PAIRS] of the
@@ -182,23 +182,23 @@ pub struct Deposit<'info> {
 #[derive(Accounts)]
 pub struct Withdraw<'info> {
     /// CHECK: Mango CPI
-    mango_group: UncheckedAccount<'info>,
+    mango_group: AccountInfo<'info>,
     /// CHECK: Mango CPI
-    mango_account: UncheckedAccount<'info>,
+    mango_account: AccountInfo<'info>,
     /// CHECK: Mango CPI
-    owner: UncheckedAccount<'info>,
+    owner: AccountInfo<'info>,
     /// CHECK: Mango CPI
-    mango_cache: UncheckedAccount<'info>,
+    mango_cache: AccountInfo<'info>,
     /// CHECK: Mango CPI
-    root_bank: UncheckedAccount<'info>,
+    root_bank: AccountInfo<'info>,
     /// CHECK: Mango CPI
-    node_bank: UncheckedAccount<'info>,
+    node_bank: AccountInfo<'info>,
     /// CHECK: Mango CPI
-    vault: UncheckedAccount<'info>,
+    vault: AccountInfo<'info>,
     /// CHECK: Mango CPI
-    token_account: UncheckedAccount<'info>,
+    token_account: AccountInfo<'info>,
     /// CHECK: Mango CPI
-    signer: UncheckedAccount<'info>,
+    signer: AccountInfo<'info>,
 }
 
 /// To reference OpenOrders, add them to the accounts [0-MAX_PAIRS] of the
@@ -206,21 +206,21 @@ pub struct Withdraw<'info> {
 #[derive(Accounts)]
 pub struct PlacePerpOrder2<'info> {
     /// CHECK: Mango CPI
-    mango_group: UncheckedAccount<'info>,
+    mango_group: AccountInfo<'info>,
     /// CHECK: Mango CPI
-    mango_account: UncheckedAccount<'info>,
+    mango_account: AccountInfo<'info>,
     /// CHECK: Mango CPI
-    owner: UncheckedAccount<'info>,
+    owner: AccountInfo<'info>,
     /// CHECK: Mango CPI
-    mango_cache: UncheckedAccount<'info>,
+    mango_cache: AccountInfo<'info>,
     /// CHECK: Mango CPI
-    perp_market: UncheckedAccount<'info>,
+    perp_market: AccountInfo<'info>,
     /// CHECK: Mango CPI
-    bids: UncheckedAccount<'info>,
+    bids: AccountInfo<'info>,
     /// CHECK: Mango CPI
-    asks: UncheckedAccount<'info>,
+    asks: AccountInfo<'info>,
     /// CHECK: Mango CPI
-    event_queue: UncheckedAccount<'info>,
+    event_queue: AccountInfo<'info>,
 }
 
 /// Checks that the supplied program ID is the correct one
