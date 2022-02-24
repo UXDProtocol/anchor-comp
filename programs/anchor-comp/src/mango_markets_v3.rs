@@ -13,6 +13,8 @@ mod mango_program_id {
 #[derive(Clone)]
 pub struct MangoMarketV3;
 
+pub use MangoMarketV3;
+
 impl anchor_lang::Id for MangoMarketV3 {
     fn id() -> Pubkey {
         mango_program_id::ID
