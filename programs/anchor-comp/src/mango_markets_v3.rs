@@ -13,8 +13,6 @@ mod mango_program_id {
 #[derive(Clone)]
 pub struct MangoMarketV3;
 
-pub use MangoMarketV3;
-
 impl anchor_lang::Id for MangoMarketV3 {
     fn id() -> Pubkey {
         mango_program_id::ID
@@ -148,35 +146,35 @@ pub fn place_perp_order2<'a, 'b, 'c, 'info>(
 #[derive(Accounts)]
 pub struct CreateMangoAccount<'info> {
     /// CHECK: Mango CPI
-    mango_group: AccountInfo<'info>,
+    pub mango_group: AccountInfo<'info>,
     /// CHECK: Mango CPI
-    mango_account: AccountInfo<'info>,
+    pub mango_account: AccountInfo<'info>,
     /// CHECK: Mango CPI
-    owner: AccountInfo<'info>,
+    pub owner: AccountInfo<'info>,
     /// CHECK: Mango CPI
-    system_prog: AccountInfo<'info>,
+    pub system_prog: AccountInfo<'info>,
     /// CHECK: Mango CPI
-    payer: AccountInfo<'info>,
+    pub payer: AccountInfo<'info>,
 }
 
 #[derive(Accounts)]
 pub struct Deposit<'info> {
     /// CHECK: Mango CPI
-    mango_group: AccountInfo<'info>,
+    pub mango_group: AccountInfo<'info>,
     /// CHECK: Mango CPI
-    mango_account: AccountInfo<'info>,
+    pub mango_account: AccountInfo<'info>,
     /// CHECK: Mango CPI
-    owner: AccountInfo<'info>,
+    pub owner: AccountInfo<'info>,
     /// CHECK: Mango CPI
-    mango_cache: AccountInfo<'info>,
+    pub mango_cache: AccountInfo<'info>,
     /// CHECK: Mango CPI
-    root_bank: AccountInfo<'info>,
+    pub root_bank: AccountInfo<'info>,
     /// CHECK: Mango CPI
-    node_bank: AccountInfo<'info>,
+    pub node_bank: AccountInfo<'info>,
     /// CHECK: Mango CPI
-    vault: AccountInfo<'info>,
+    pub vault: AccountInfo<'info>,
     /// CHECK: Mango CPI
-    owner_token_account: AccountInfo<'info>,
+    pub owner_token_account: AccountInfo<'info>,
 }
 
 /// To reference OpenOrders, add them to the accounts [0-MAX_PAIRS] of the
@@ -184,23 +182,23 @@ pub struct Deposit<'info> {
 #[derive(Accounts)]
 pub struct Withdraw<'info> {
     /// CHECK: Mango CPI
-    mango_group: AccountInfo<'info>,
+    pub mango_group: AccountInfo<'info>,
     /// CHECK: Mango CPI
-    mango_account: AccountInfo<'info>,
+    pub mango_account: AccountInfo<'info>,
     /// CHECK: Mango CPI
-    owner: AccountInfo<'info>,
+    pub owner: AccountInfo<'info>,
     /// CHECK: Mango CPI
-    mango_cache: AccountInfo<'info>,
+    pub mango_cache: AccountInfo<'info>,
     /// CHECK: Mango CPI
-    root_bank: AccountInfo<'info>,
+    pub root_bank: AccountInfo<'info>,
     /// CHECK: Mango CPI
-    node_bank: AccountInfo<'info>,
+    pub node_bank: AccountInfo<'info>,
     /// CHECK: Mango CPI
-    vault: AccountInfo<'info>,
+    pub vault: AccountInfo<'info>,
     /// CHECK: Mango CPI
-    token_account: AccountInfo<'info>,
+    pub token_account: AccountInfo<'info>,
     /// CHECK: Mango CPI
-    signer: AccountInfo<'info>,
+    pub signer: AccountInfo<'info>,
 }
 
 /// To reference OpenOrders, add them to the accounts [0-MAX_PAIRS] of the
@@ -208,21 +206,21 @@ pub struct Withdraw<'info> {
 #[derive(Accounts)]
 pub struct PlacePerpOrder2<'info> {
     /// CHECK: Mango CPI
-    mango_group: AccountInfo<'info>,
+    pub mango_group: AccountInfo<'info>,
     /// CHECK: Mango CPI
-    mango_account: AccountInfo<'info>,
+    pub mango_account: AccountInfo<'info>,
     /// CHECK: Mango CPI
-    owner: AccountInfo<'info>,
+    pub owner: AccountInfo<'info>,
     /// CHECK: Mango CPI
-    mango_cache: AccountInfo<'info>,
+    pub mango_cache: AccountInfo<'info>,
     /// CHECK: Mango CPI
-    perp_market: AccountInfo<'info>,
+    pub perp_market: AccountInfo<'info>,
     /// CHECK: Mango CPI
-    bids: AccountInfo<'info>,
+    pub bids: AccountInfo<'info>,
     /// CHECK: Mango CPI
-    asks: AccountInfo<'info>,
+    pub asks: AccountInfo<'info>,
     /// CHECK: Mango CPI
-    event_queue: AccountInfo<'info>,
+    pub event_queue: AccountInfo<'info>,
 }
 
 /// Checks that the supplied program ID is the correct one
