@@ -6,6 +6,14 @@ MangoMarketV3 Solana program.
 
 Follows structure of <https://github.com/project-serum/anchor/blob/master/spl/src/dex.rs> and <https://github.com/project-serum/anchor/blob/master/spl/src/token.rs>
 
+## Usage
+
+```toml
+[dependencies]
+anchor-comp = { version = "0.1.0", git = "https://github.com/UXDProtocol/anchor-comp", features = ["no-entrypoint", "development"] }
+# anchor-comp = { version = "0.1.0", git = "https://github.com/UXDProtocol/anchor-comp", features = ["no-entrypoint", "production"] }
+```
+
 ## Example CPI from Rust Solana program
 
 ```rust
