@@ -19,6 +19,21 @@ impl anchor_lang::Id for MangoMarketV3 {
     }
 }
 
+// First version, use create_mango_account instead
+pub fn init_mango_account<'a, 'b, 'c, 'info>(
+    ctx: CpiContext<'a, 'b, 'c, 'info, InitMangoAccount<'info>>,
+) -> Result<()> {
+    check_program_account(ctx.program.key)?;
+    let ix = mango::instruction::init_mango_account(
+        &mango_program_id::ID,
+        ctx.accounts.mango_group.key,
+        ctx.accounts.mango_account.key,
+        ctx.accounts.owner.key,
+    )?;
+    solana_program::program::invoke(&ix, &ToAccountInfos::to_account_infos(&ctx))
+        .map_err(Into::into)
+}
+
 pub fn create_mango_account<'a, 'b, 'c, 'info>(
     ctx: CpiContext<'a, 'b, 'c, 'info, CreateMangoAccount<'info>>,
     account_num: u64,
@@ -141,6 +156,16 @@ pub fn place_perp_order2<'a, 'b, 'c, 'info>(
         ctx.signer_seeds,
     )
     .map_err(Into::into)
+}
+
+#[derive(Accounts)]
+pub struct InitMangoAccount<'info> {
+    /// CHECK: Mango CPI
+    pub mango_group: AccountInfo<'info>,
+    /// CHECK: Mango CPI
+    pub mango_account: AccountInfo<'info>,
+    /// CHECK: Mango CPI
+    pub owner: AccountInfo<'info>,
 }
 
 #[derive(Accounts)]

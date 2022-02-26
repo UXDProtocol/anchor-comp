@@ -20,6 +20,6 @@ production = []
 development = []
 
 [dependencies]
-solana-program = "^1.8.12"
+solana-program = "1.9.9"
 anchor-lang = "0.22.0"
 mango = { git = "https://github.com/blockworks-foundation/mango-v3", features = ["no-entrypoint"] }
