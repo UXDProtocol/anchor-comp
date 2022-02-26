@@ -30,8 +30,12 @@ pub fn init_mango_account<'a, 'b, 'c, 'info>(
         ctx.accounts.mango_account.key,
         ctx.accounts.owner.key,
     )?;
-    solana_program::program::invoke(&ix, &ToAccountInfos::to_account_infos(&ctx))
-        .map_err(Into::into)
+    solana_program::program::invoke_signed(
+        &ix,
+        &ToAccountInfos::to_account_infos(&ctx),
+        ctx.signer_seeds,
+    )
+    .map_err(Into::into)
 }
 
 pub fn create_mango_account<'a, 'b, 'c, 'info>(
@@ -48,8 +52,12 @@ pub fn create_mango_account<'a, 'b, 'c, 'info>(
         ctx.accounts.payer.key,
         account_num,
     )?;
-    solana_program::program::invoke(&ix, &ToAccountInfos::to_account_infos(&ctx))
-        .map_err(Into::into)
+    solana_program::program::invoke_signed(
+        &ix,
+        &ToAccountInfos::to_account_infos(&ctx),
+        ctx.signer_seeds,
+    )
+    .map_err(Into::into)
 }
 
 pub fn deposit<'a, 'b, 'c, 'info>(
