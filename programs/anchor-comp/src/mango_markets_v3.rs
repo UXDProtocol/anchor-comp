@@ -166,6 +166,51 @@ pub fn place_perp_order2<'a, 'b, 'c, 'info>(
     .map_err(Into::into)
 }
 
+pub fn place_spot_order2<'a, 'b, 'c, 'info>(
+    ctx: CpiContext<'a, 'b, 'c, 'info, PlaceSpotOrder2<'info>>,
+    market_index: usize, // used to determine which of the open orders accounts should be passed in write
+    order: serum_dex::instruction::NewOrderInstructionV3,
+) -> Result<()> {
+    check_program_account(ctx.program.key)?;
+    let remaining_accounts_iter = ctx.remaining_accounts.iter();
+    let mut open_orders = vec![Pubkey::default(); MAX_PAIRS];
+    remaining_accounts_iter.for_each(|ai| open_orders.push(*ai.key));
+
+    let ix = mango::instruction::place_spot_order2(
+        &mango_program_id::ID,
+        ctx.accounts.mango_group.key,
+        ctx.accounts.mango_account.key,
+        ctx.accounts.owner.key,
+        ctx.accounts.mango_cache.key,
+        ctx.accounts.dex_prog.key,
+        ctx.accounts.spot_market.key,
+        ctx.accounts.bids.key,
+        ctx.accounts.asks.key,
+        ctx.accounts.request_queue.key,
+        ctx.accounts.event_queue.key,
+        ctx.accounts.dex_base.key,
+        ctx.accounts.dex_quote.key,
+        ctx.accounts.base_root_bank.key,
+        ctx.accounts.base_node_bank.key,
+        ctx.accounts.base_vault.key,
+        ctx.accounts.quote_root_bank.key,
+        ctx.accounts.quote_node_bank.key,
+        ctx.accounts.quote_vault.key,
+        ctx.accounts.signer.key,
+        ctx.accounts.dex_signer.key,
+        ctx.accounts.msrm_or_srm_vault.key,
+        open_orders.as_slice(),
+        market_index, // used to determine which of the open orders accounts should be passed in write
+        order,
+    )?;
+    solana_program::program::invoke_signed(
+        &ix,
+        &ToAccountInfos::to_account_infos(&ctx),
+        ctx.signer_seeds,
+    )
+    .map_err(Into::into)
+}
+
 #[derive(Accounts)]
 pub struct InitMangoAccount<'info> {
     /// CHECK: Mango CPI
@@ -254,6 +299,56 @@ pub struct PlacePerpOrder2<'info> {
     pub asks: AccountInfo<'info>,
     /// CHECK: Mango CPI
     pub event_queue: AccountInfo<'info>,
+}
+
+/// To reference OpenOrders, add them to the accounts [0-MAX_PAIRS] of the
+/// CpiContext's `remaining_accounts` Vec.
+#[derive(Accounts)]
+pub struct PlaceSpotOrder2<'info> {
+    /// CHECK: Mango CPI
+    pub mango_group: AccountInfo<'info>,
+    /// CHECK: Mango CPI
+    pub mango_account: AccountInfo<'info>,
+    /// CHECK: Mango CPI
+    pub owner: AccountInfo<'info>,
+    /// CHECK: Mango CPI
+    pub mango_cache: AccountInfo<'info>,
+    /// CHECK: Mango CPI
+    pub dex_prog: AccountInfo<'info>,
+    /// CHECK: Mango CPI
+    pub spot_market: AccountInfo<'info>,
+    /// CHECK: Mango CPI
+    pub bids: AccountInfo<'info>,
+    /// CHECK: Mango CPI
+    pub asks: AccountInfo<'info>,
+    /// CHECK: Mango CPI
+    pub request_queue: AccountInfo<'info>,
+    /// CHECK: Mango CPI
+    pub event_queue: AccountInfo<'info>,
+    /// CHECK: Mango CPI
+    pub dex_base: AccountInfo<'info>,
+    /// CHECK: Mango CPI
+    pub dex_quote: AccountInfo<'info>,
+    /// CHECK: Mango CPI
+    pub base_root_bank: AccountInfo<'info>,
+    /// CHECK: Mango CPI
+    pub base_node_bank: AccountInfo<'info>,
+    /// CHECK: Mango CPI
+    pub base_vault: AccountInfo<'info>,
+    /// CHECK: Mango CPI
+    pub quote_root_bank: AccountInfo<'info>,
+    /// CHECK: Mango CPI
+    pub quote_node_bank: AccountInfo<'info>,
+    /// CHECK: Mango CPI
+    pub quote_vault: AccountInfo<'info>,
+    /// CHECK: Mango CPI
+    pub token_prog: AccountInfo<'info>,
+    /// CHECK: Mango CPI
+    pub signer: AccountInfo<'info>,
+    /// CHECK: Mango CPI
+    pub dex_signer: AccountInfo<'info>,
+    /// CHECK: Mango CPI
+    pub msrm_or_srm_vault: AccountInfo<'info>,
 }
 
 /// Checks that the supplied program ID is the correct one
