@@ -22,5 +22,5 @@ development = []
 [dependencies]
 solana-program = ">=1.9.0, <1.10.0"
 anchor-lang = "0.22.1"
-mango = { rev = "6ad990956cfaed5b14e19e168b46776f9b91ba35", git = "https://github.com/blockworks-foundation/mango-v3", features = ["no-entrypoint"] }
+mango = { git = "https://github.com/blockworks-foundation/mango-v3", features = ["no-entrypoint"] }
 serum_dex = { version = "0.4.0", git = "https://github.com/blockworks-foundation/serum-dex.git", default-features=false, features = ["no-entrypoint", "program"] }
