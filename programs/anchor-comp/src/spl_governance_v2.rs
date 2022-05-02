@@ -25,39 +25,6 @@ fn get_pubkey_from_opt_account_info(opt_account_info: Option<&AccountInfo>) -> O
     };
 }
 
-#[derive(Accounts)]
-pub struct CreateTokenOwnerRecord<'info> {
-    /// CHECK: Spl Governance CPI
-    pub governance_realm_account: AccountInfo<'info>,
-    /// CHECK: Spl Governance CPI
-    pub governing_token_owner: AccountInfo<'info>,
-    /// CHECK: Spl Governance CPI
-    pub governing_token_mint: AccountInfo<'info>,
-    /// CHECK: Spl Governance CPI
-    pub payer: AccountInfo<'info>,
-}
-
-pub fn create_token_owner_record<'a, 'b, 'c, 'info>(
-    ctx: CpiContext<'a, 'b, 'c, 'info, CreateTokenOwnerRecord<'info>>,
-) -> Result<()> {
-    check_program_account(ctx.program.key)?;
-
-    let ix = spl_governance::instruction::create_token_owner_record(
-        &spl_governance_program_id::ID,
-        ctx.accounts.governance_realm_account.key,
-        ctx.accounts.governing_token_owner.key,
-        ctx.accounts.governing_token_mint.key,
-        ctx.accounts.payer.key,
-    );
-
-    solana_program::program::invoke_signed(
-        &ix,
-        &ToAccountInfos::to_account_infos(&ctx),
-        ctx.signer_seeds,
-    )
-    .map_err(Into::into)
-}
-
 pub fn set_governance_delegate<'a, 'b, 'c, 'info>(
     ctx: CpiContext<'a, 'b, 'c, 'info, SetGovernanceDelegate<'info>>,
 ) -> Result<()> {
