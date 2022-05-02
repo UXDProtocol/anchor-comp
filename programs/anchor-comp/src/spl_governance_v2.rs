@@ -185,6 +185,8 @@ pub struct DepositGoverningTokens<'info> {
     pub governing_token_transfer_authority: AccountInfo<'info>,
     /// CHECK: Spl Governance CPI
     pub payer: AccountInfo<'info>,
+    /// CHECK: Spl Governance CPI
+    pub governing_token_holding_address: AccountInfo<'info>,
 }
 
 #[derive(Accounts)]
