@@ -170,7 +170,7 @@ pub struct SetGovernanceDelegate<'info> {
     /// CHECK: Spl Governance CPI
     pub governing_token_owner: AccountInfo<'info>,
     /// CHECK: Spl Governance CPI
-    pub token_owner_record_address: AccountInfo<'info>,
+    pub governance_token_owner_record_address: AccountInfo<'info>,
 }
 
 #[derive(Accounts)]
