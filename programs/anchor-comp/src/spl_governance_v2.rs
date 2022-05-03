@@ -30,17 +30,13 @@ pub fn set_governance_delegate<'a, 'b, 'c, 'info>(
 ) -> Result<()> {
     check_program_account(ctx.program.key)?;
 
-    let mut remaining_accounts_iter = ctx.remaining_accounts.iter();
-
-    let new_governance_delegate = get_pubkey_from_opt_account_info(remaining_accounts_iter.next());
-
     let ix = spl_governance::instruction::set_governance_delegate(
         &spl_governance_program_id::ID,
         ctx.accounts.governance_authority.key,
         ctx.accounts.governance_realm_account.key,
         ctx.accounts.governing_token_mint.key,
         ctx.accounts.governing_token_owner.key,
-        &new_governance_delegate,
+        ctx.accounts.new_governance_delegate.key,
     );
 
     solana_program::program::invoke_signed(
@@ -169,6 +165,8 @@ pub struct SetGovernanceDelegate<'info> {
     pub governing_token_mint: AccountInfo<'info>,
     /// CHECK: Spl Governance CPI
     pub governing_token_owner: AccountInfo<'info>,
+    /// CHECK: Spl Governance CPI
+    pub new_governance_delegate: AccountInfo<'info>,
 }
 
 #[derive(Accounts)]
