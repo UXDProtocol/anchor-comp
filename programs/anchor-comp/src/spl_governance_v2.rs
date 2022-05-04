@@ -169,7 +169,8 @@ pub struct SetGovernanceDelegate<'info> {
     pub governing_token_mint: AccountInfo<'info>,
     /// CHECK: Spl Governance CPI
     pub governing_token_owner: AccountInfo<'info>,
-    /// CHECK: Spl Governance CPI
+
+    /// CHECK: Spl Governance CPI -- required only to be in the cpi context
     pub governance_token_owner_record_address: AccountInfo<'info>,
 }
 
@@ -187,9 +188,10 @@ pub struct DepositGoverningTokens<'info> {
     pub governing_token_transfer_authority: AccountInfo<'info>,
     /// CHECK: Spl Governance CPI
     pub payer: AccountInfo<'info>,
-    /// CHECK: Spl Governance CPI
+
+    /// CHECK: Spl Governance CPI -- required only to be in the cpi context
     pub governing_token_holding_address: AccountInfo<'info>,
-    /// CHECK: Spl Governance CPI
+    /// CHECK: Spl Governance CPI -- required only to be in the cpi context
     pub governance_token_owner_record_address: AccountInfo<'info>,
 }
 
@@ -203,6 +205,9 @@ pub struct WithdrawGoverningTokens<'info> {
     pub governing_token_owner_account: AccountInfo<'info>,
     /// CHECK: Spl Governance CPI
     pub governing_token_mint: AccountInfo<'info>,
+
+    /// CHECK: Spl Governance CPI -- required only to be in the cpi context
+    pub governing_token_holding_address: AccountInfo<'info>,
 }
 
 #[derive(Accounts)]
