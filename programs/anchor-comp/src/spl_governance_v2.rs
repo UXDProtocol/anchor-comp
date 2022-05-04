@@ -208,6 +208,8 @@ pub struct WithdrawGoverningTokens<'info> {
 
     /// CHECK: Spl Governance CPI -- required only to be in the cpi context
     pub governing_token_holding_address: AccountInfo<'info>,
+    /// CHECK: Spl Governance CPI -- required only to be in the cpi context
+    pub governance_token_owner_record_address: AccountInfo<'info>,
 }
 
 #[derive(Accounts)]
