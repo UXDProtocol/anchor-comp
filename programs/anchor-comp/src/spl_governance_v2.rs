@@ -17,10 +17,6 @@ impl anchor_lang::Id for SplGovernanceV2 {
     }
 }
 
-// Re-export spl governance structures
-pub use spl_governance::state::realm::RealmV2;
-pub use spl_governance::state::token_owner_record::TokenOwnerRecordV2;
-
 // Utility function
 fn get_pubkey_from_opt_account_info(opt_account_info: Option<&AccountInfo>) -> Option<Pubkey> {
     return match opt_account_info {
