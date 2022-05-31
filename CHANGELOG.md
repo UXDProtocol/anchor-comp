@@ -8,7 +8,6 @@
    - CastVote
    - RelinquishVote
    - SetGovernanceDelegate
-   - CreateTokenOwnerRecord
 
 ## v0.1.0
 
