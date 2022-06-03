@@ -1,8 +1,9 @@
 # anchor-comp
 
-Anchor wrapper for additional non mango program not part of the SPL library.
+Anchor wrapper for non anchor program. In v2, contains:
 
-MangoMarketV3 Solana program.
+- MangoMarketV3 Solana program.
+- SplGovernanceV2 Solana program.
 
 Follows structure of <https://github.com/project-serum/anchor/blob/master/spl/src/dex.rs> and <https://github.com/project-serum/anchor/blob/master/spl/src/token.rs>
 
@@ -74,7 +75,7 @@ anchor-comp = { version = "0.1.0", git = "https://github.com/UXDProtocol/anchor-
             let cpi_program = self.mango_program.to_account_info();
             CpiContext::new(cpi_program, cpi_accounts)
         }
-        
+
         // ...
     }
 

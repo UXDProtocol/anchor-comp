@@ -1,7 +1,7 @@
 [package]
 name = "anchor-comp"
-version = "0.1.6"
-description = "Wrapper on MangoMarketsV3 (non anchor)"
+version = "0.2.0"
+description = "Wrapper on MangoMarketsV3 / SplGovernanceV2 (non anchor)"
 edition = "2021"
 authors = ["alexcamill@gmail.com UXDProtocol::Acammm"]
 license = "Apache-2.0"
@@ -25,3 +25,4 @@ anchor-lang = "0.24.2"
 mango = { git = "https://github.com/blockworks-foundation/mango-v3", features = ["no-entrypoint"] }
 # Follows mango
 serum_dex = { rev = "7f55a5ef5f7937b74381a3124021a261cd7d7283", git = "https://github.com/blockworks-foundation/serum-dex.git", default-features=false, features = ["no-entrypoint", "program"] }
+spl-governance = { version = "2.2.4", features = ["no-entrypoint"] }
