@@ -37,7 +37,7 @@ pub fn set_governance_delegate<'a, 'b, 'c, 'info>(
     let ix = spl_governance::instruction::set_governance_delegate(
         &spl_governance_program_id::ID,
         ctx.accounts.governance_authority.key,
-        ctx.accounts.governance_realm_account.key,
+        ctx.accounts.realm.key,
         ctx.accounts.governing_token_mint.key,
         ctx.accounts.governing_token_owner.key,
         &new_governance_delegate,
@@ -59,9 +59,9 @@ pub fn deposit_governing_tokens<'a, 'b, 'c, 'info>(
 
     let ix = spl_governance::instruction::deposit_governing_tokens(
         &spl_governance_program_id::ID,
-        ctx.accounts.governance_realm_account.key,
-        ctx.accounts.governing_token_source_account.key,
-        ctx.accounts.governing_token_owner_account.key,
+        ctx.accounts.realm.key,
+        ctx.accounts.governing_token_source.key,
+        ctx.accounts.governing_token_owner.key,
         ctx.accounts.governing_token_transfer_authority.key,
         ctx.accounts.payer.key,
         amount,
@@ -83,9 +83,9 @@ pub fn withdraw_governing_tokens<'a, 'b, 'c, 'info>(
 
     let ix = spl_governance::instruction::withdraw_governing_tokens(
         &spl_governance_program_id::ID,
-        ctx.accounts.governance_realm_account.key,
+        ctx.accounts.realm.key,
         ctx.accounts.governing_token_destination_account.key,
-        ctx.accounts.governing_token_owner_account.key,
+        ctx.accounts.governing_token_owner.key,
         ctx.accounts.governing_token_mint.key,
     );
 
@@ -110,7 +110,7 @@ pub fn cast_vote<'a, 'b, 'c, 'info>(
 
     let ix = spl_governance::instruction::cast_vote(
         &spl_governance_program_id::ID,
-        ctx.accounts.governance_realm_account.key,
+        ctx.accounts.realm.key,
         ctx.accounts.governance.key,
         ctx.accounts.proposal.key,
         ctx.accounts.proposal_owner_record.key,
@@ -164,52 +164,52 @@ pub struct SetGovernanceDelegate<'info> {
     /// CHECK: Spl Governance CPI
     pub governance_authority: AccountInfo<'info>,
     /// CHECK: Spl Governance CPI
-    pub governance_realm_account: AccountInfo<'info>,
+    pub realm: AccountInfo<'info>,
     /// CHECK: Spl Governance CPI
     pub governing_token_mint: AccountInfo<'info>,
     /// CHECK: Spl Governance CPI
     pub governing_token_owner: AccountInfo<'info>,
 
     /// CHECK: Spl Governance CPI -- required only to be in the cpi context
-    pub governance_token_owner_record_address: AccountInfo<'info>,
+    pub governing_token_owner_record: AccountInfo<'info>,
 }
 
 #[derive(Accounts)]
 pub struct DepositGoverningTokens<'info> {
     /// CHECK: Spl Governance CPI
-    pub governance_realm_account: AccountInfo<'info>,
+    pub realm: AccountInfo<'info>,
     /// CHECK: Spl Governance CPI
     pub governing_token_mint: AccountInfo<'info>,
     /// CHECK: Spl Governance CPI
-    pub governing_token_source_account: AccountInfo<'info>,
+    pub governing_token_source: AccountInfo<'info>,
     /// CHECK: Spl Governance CPI
-    pub governing_token_owner_account: AccountInfo<'info>,
+    pub governing_token_owner: AccountInfo<'info>,
     /// CHECK: Spl Governance CPI
     pub governing_token_transfer_authority: AccountInfo<'info>,
     /// CHECK: Spl Governance CPI
     pub payer: AccountInfo<'info>,
 
     /// CHECK: Spl Governance CPI -- required only to be in the cpi context
-    pub governing_token_holding_address: AccountInfo<'info>,
+    pub governing_token_holding: AccountInfo<'info>,
     /// CHECK: Spl Governance CPI -- required only to be in the cpi context
-    pub governance_token_owner_record_address: AccountInfo<'info>,
+    pub governing_token_owner_record: AccountInfo<'info>,
 }
 
 #[derive(Accounts)]
 pub struct WithdrawGoverningTokens<'info> {
     /// CHECK: Spl Governance CPI
-    pub governance_realm_account: AccountInfo<'info>,
+    pub realm: AccountInfo<'info>,
     /// CHECK: Spl Governance CPI
     pub governing_token_destination_account: AccountInfo<'info>,
     /// CHECK: Spl Governance CPI
-    pub governing_token_owner_account: AccountInfo<'info>,
+    pub governing_token_owner: AccountInfo<'info>,
     /// CHECK: Spl Governance CPI
     pub governing_token_mint: AccountInfo<'info>,
 
     /// CHECK: Spl Governance CPI -- required only to be in the cpi context
-    pub governing_token_holding_address: AccountInfo<'info>,
+    pub governing_token_holding: AccountInfo<'info>,
     /// CHECK: Spl Governance CPI -- required only to be in the cpi context
-    pub governance_token_owner_record_address: AccountInfo<'info>,
+    pub governing_token_owner_record: AccountInfo<'info>,
 }
 
 #[derive(Accounts)]
@@ -217,7 +217,7 @@ pub struct CastVote<'info> {
     /// CHECK: Spl Governance CPI
     pub governance: AccountInfo<'info>,
     /// CHECK: Spl Governance CPI
-    pub governance_realm_account: AccountInfo<'info>,
+    pub realm: AccountInfo<'info>,
     /// CHECK: Spl Governance CPI
     pub governance_authority: AccountInfo<'info>,
     /// CHECK: Spl Governance CPI
@@ -252,5 +252,5 @@ pub fn check_program_account(spl_governance_program_id: &Pubkey) -> Result<()> {
         return Err(error!(ErrorCode::InvalidProgramId));
     }
 
-    return Ok(());
+    Ok(())
 }
