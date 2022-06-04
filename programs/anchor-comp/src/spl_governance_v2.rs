@@ -84,7 +84,7 @@ pub fn withdraw_governing_tokens<'a, 'b, 'c, 'info>(
     let ix = spl_governance::instruction::withdraw_governing_tokens(
         &spl_governance_program_id::ID,
         ctx.accounts.realm.key,
-        ctx.accounts.governing_token_destination_account.key,
+        ctx.accounts.governing_token_destination.key,
         ctx.accounts.governing_token_owner.key,
         ctx.accounts.governing_token_mint.key,
     );
@@ -200,7 +200,7 @@ pub struct WithdrawGoverningTokens<'info> {
     /// CHECK: Spl Governance CPI
     pub realm: AccountInfo<'info>,
     /// CHECK: Spl Governance CPI
-    pub governing_token_destination_account: AccountInfo<'info>,
+    pub governing_token_destination: AccountInfo<'info>,
     /// CHECK: Spl Governance CPI
     pub governing_token_owner: AccountInfo<'info>,
     /// CHECK: Spl Governance CPI
