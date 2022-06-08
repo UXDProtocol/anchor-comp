@@ -1,6 +1,6 @@
 [package]
 name = "anchor-comp"
-version = "0.2.2"
+version = "0.2.3"
 description = "Wrapper on MangoMarketsV3 / SplGovernanceV2 (non anchor)"
 edition = "2021"
 authors = ["alexcamill@gmail.com UXDProtocol::Acammm"]
