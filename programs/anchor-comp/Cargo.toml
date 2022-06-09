@@ -26,3 +26,5 @@ mango = { tag = "v3.4.6", git = "https://github.com/blockworks-foundation/mango-
 # Follows mango
 serum_dex = { rev = "7f55a5ef5f7937b74381a3124021a261cd7d7283", git = "https://github.com/blockworks-foundation/serum-dex.git", default-features=false, features = ["no-entrypoint", "program"] }
 spl-governance = { version = "2.2.4", features = ["no-entrypoint"] }
+marinade-finance = { git = "https://github.com/UXDProtocol/liquid-staking-program", features = ["no-entrypoint"] }
+marinade-onchain-helper = { git = "https://github.com/UXDProtocol/marinade-onchain-helper" }

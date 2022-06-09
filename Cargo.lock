@@ -135,10 +135,12 @@ dependencies = [
 
 [[package]]
 name = "anchor-comp"
-version = "0.2.2"
+version = "0.2.3"
 dependencies = [
  "anchor-lang",
  "mango",
+ "marinade-finance",
+ "marinade-onchain-helper",
  "serum_dex",
  "solana-program",
  "spl-governance",
@@ -179,6 +181,18 @@ dependencies = [
  "bytemuck",
  "solana-program",
  "thiserror",
+]
+
+[[package]]
+name = "anchor-spl"
+version = "0.24.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0188c33b4a3c124c4e593f2b440415aaea70a7650fac6ba0772395385d71c003"
+dependencies = [
+ "anchor-lang",
+ "solana-program",
+ "spl-associated-token-account",
+ "spl-token",
 ]
 
 [[package]]
@@ -898,6 +912,28 @@ dependencies = [
 ]
 
 [[package]]
+name = "marinade-finance"
+version = "0.1.0"
+source = "git+https://github.com/UXDProtocol/liquid-staking-program#f7e468e456a7735b2b4673b45a1d28ecae258912"
+dependencies = [
+ "anchor-lang",
+ "anchor-spl",
+ "bincode",
+ "spl-token",
+]
+
+[[package]]
+name = "marinade-onchain-helper"
+version = "0.1.0"
+source = "git+https://github.com/UXDProtocol/marinade-onchain-helper#e25391d4d55d9fa72e445474bf9d15cbce74e234"
+dependencies = [
+ "anchor-lang",
+ "anchor-spl",
+ "marinade-finance",
+ "solana-program",
+]
+
+[[package]]
 name = "memchr"
 version = "2.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1464,6 +1500,17 @@ dependencies = [
  "quote",
  "rustversion",
  "syn",
+]
+
+[[package]]
+name = "spl-associated-token-account"
+version = "1.0.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "2b013067447a1396303ddfc294f36e3d260a32f8a16c501c295bcdc7de39b490"
+dependencies = [
+ "borsh",
+ "solana-program",
+ "spl-token",
 ]
 
 [[package]]
