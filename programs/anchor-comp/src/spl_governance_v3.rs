@@ -143,6 +143,7 @@ pub fn relinquish_vote<'a, 'b, 'c, 'info>(
 
     let ix = spl_governance::instruction::relinquish_vote(
         &spl_governance_program_id::ID,
+        ctx.accounts.realm.key,
         ctx.accounts.governance.key,
         ctx.accounts.proposal.key,
         ctx.accounts.voter_token_owner_record.key,
@@ -238,6 +239,8 @@ pub struct CastVote<'info> {
 pub struct RelinquishVote<'info> {
     /// CHECK: Spl Governance CPI
     pub governance: AccountInfo<'info>,
+    /// CHECK: Spl Governance CPI
+    pub realm: AccountInfo<'info>,
     /// CHECK: Spl Governance CPI
     pub proposal: AccountInfo<'info>,
     /// CHECK: Spl Governance CPI

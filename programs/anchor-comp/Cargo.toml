@@ -20,9 +20,11 @@ production = []
 development = []
 
 [dependencies]
-solana-program = ">=1.9.0"
-anchor-lang = "0.24.2"
-mango = { tag = "v3.4.6", git = "https://github.com/blockworks-foundation/mango-v3", features = ["no-entrypoint"] }
-# Follows mango
-serum_dex = { rev = "7f55a5ef5f7937b74381a3124021a261cd7d7283", git = "https://github.com/blockworks-foundation/serum-dex.git", default-features=false, features = ["no-entrypoint", "program"] }
-spl-governance = { version = "2.2.4", features = ["no-entrypoint"] }
+# Follows spl-governance
+solana-program = "1.14.6"
+
+# Needs to get latest version of anchor to match solana package
+anchor-lang = { git = "https://github.com/coral-xyz/anchor" }
+
+# spl-governance = { version = "2.2.4", features = ["no-entrypoint"] }
+spl-governance = { tag = "governance-v3.1.0", git = "https://github.com/solana-labs/solana-program-library", features = ["no-entrypoint"] }
