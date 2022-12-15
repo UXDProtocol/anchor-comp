@@ -1,8 +1,8 @@
 [package]
 name = "anchor-comp"
-version = "0.2.3"
-description = "Wrapper on MangoMarketsV3 / SplGovernanceV2 (non anchor)"
-edition = "2021"
+version = "0.3.0"
+description = "Wrapper on SplGovernanceV3 (non anchor)"
+edition = "2022"
 authors = ["alexcamill@gmail.com UXDProtocol::Acammm"]
 license = "Apache-2.0"
 
@@ -20,9 +20,10 @@ production = []
 development = []
 
 [dependencies]
-solana-program = ">=1.9.0"
-anchor-lang = "0.24.2"
-mango = { tag = "v3.4.6", git = "https://github.com/blockworks-foundation/mango-v3", features = ["no-entrypoint"] }
-# Follows mango
-serum_dex = { rev = "7f55a5ef5f7937b74381a3124021a261cd7d7283", git = "https://github.com/blockworks-foundation/serum-dex.git", default-features=false, features = ["no-entrypoint", "program"] }
-spl-governance = { version = "2.2.4", features = ["no-entrypoint"] }
+# follows spl-governance
+solana-program = "1.14.6"
+
+# latest version of anchor to match solana package
+anchor-lang = { git = "https://github.com/coral-xyz/anchor" }
+
+spl-governance = { tag = "governance-v3.1.0", git = "https://github.com/solana-labs/solana-program-library", features = ["no-entrypoint"] }

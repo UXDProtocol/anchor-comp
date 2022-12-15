@@ -9,9 +9,9 @@ mod spl_governance_program_id {
 }
 
 #[derive(Clone)]
-pub struct SplGovernanceV2;
+pub struct SplGovernanceV3;
 
-impl anchor_lang::Id for SplGovernanceV2 {
+impl anchor_lang::Id for SplGovernanceV3 {
     fn id() -> Pubkey {
         spl_governance_program_id::ID
     }
@@ -143,6 +143,7 @@ pub fn relinquish_vote<'a, 'b, 'c, 'info>(
 
     let ix = spl_governance::instruction::relinquish_vote(
         &spl_governance_program_id::ID,
+        ctx.accounts.realm.key,
         ctx.accounts.governance.key,
         ctx.accounts.proposal.key,
         ctx.accounts.voter_token_owner_record.key,
@@ -190,6 +191,8 @@ pub struct DepositGoverningTokens<'info> {
     pub payer: AccountInfo<'info>,
 
     /// CHECK: Spl Governance CPI -- required only to be in the cpi context
+    pub realm_config: AccountInfo<'info>,
+    /// CHECK: Spl Governance CPI -- required only to be in the cpi context
     pub governing_token_holding: AccountInfo<'info>,
     /// CHECK: Spl Governance CPI -- required only to be in the cpi context
     pub governing_token_owner_record: AccountInfo<'info>,
@@ -206,6 +209,8 @@ pub struct WithdrawGoverningTokens<'info> {
     /// CHECK: Spl Governance CPI
     pub governing_token_mint: AccountInfo<'info>,
 
+    /// CHECK: Spl Governance CPI -- required only to be in the cpi context
+    pub realm_config: AccountInfo<'info>,
     /// CHECK: Spl Governance CPI -- required only to be in the cpi context
     pub governing_token_holding: AccountInfo<'info>,
     /// CHECK: Spl Governance CPI -- required only to be in the cpi context
@@ -238,6 +243,8 @@ pub struct CastVote<'info> {
 pub struct RelinquishVote<'info> {
     /// CHECK: Spl Governance CPI
     pub governance: AccountInfo<'info>,
+    /// CHECK: Spl Governance CPI
+    pub realm: AccountInfo<'info>,
     /// CHECK: Spl Governance CPI
     pub proposal: AccountInfo<'info>,
     /// CHECK: Spl Governance CPI
