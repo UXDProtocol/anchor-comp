@@ -9,9 +9,9 @@ mod spl_governance_program_id {
 }
 
 #[derive(Clone)]
-pub struct SplGovernanceV2;
+pub struct SplGovernanceV3;
 
-impl anchor_lang::Id for SplGovernanceV2 {
+impl anchor_lang::Id for SplGovernanceV3 {
     fn id() -> Pubkey {
         spl_governance_program_id::ID
     }

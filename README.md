@@ -2,8 +2,7 @@
 
 Anchor wrapper for non anchor program. In v2, contains:
 
-- MangoMarketV3 Solana program.
-- SplGovernanceV2 Solana program.
+- SplGovernanceV3 Solana program.
 
 Follows structure of <https://github.com/project-serum/anchor/blob/master/spl/src/dex.rs> and <https://github.com/project-serum/anchor/blob/master/spl/src/token.rs>
 

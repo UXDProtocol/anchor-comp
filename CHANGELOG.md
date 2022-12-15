@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## v0.3.0
+
+1. Migrate from SplGovernanceV2 to SplGovernanceV3
+2. Remove MangoMarketsV3 support
+
 ## v0.2.0
 
 1. Add SplGovernanceV2 support with :
