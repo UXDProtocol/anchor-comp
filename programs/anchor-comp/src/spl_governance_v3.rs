@@ -191,6 +191,8 @@ pub struct DepositGoverningTokens<'info> {
     pub payer: AccountInfo<'info>,
 
     /// CHECK: Spl Governance CPI -- required only to be in the cpi context
+    pub realm_config: AccountInfo<'info>,
+    /// CHECK: Spl Governance CPI -- required only to be in the cpi context
     pub governing_token_holding: AccountInfo<'info>,
     /// CHECK: Spl Governance CPI -- required only to be in the cpi context
     pub governing_token_owner_record: AccountInfo<'info>,
@@ -207,6 +209,8 @@ pub struct WithdrawGoverningTokens<'info> {
     /// CHECK: Spl Governance CPI
     pub governing_token_mint: AccountInfo<'info>,
 
+    /// CHECK: Spl Governance CPI -- required only to be in the cpi context
+    pub realm_config: AccountInfo<'info>,
     /// CHECK: Spl Governance CPI -- required only to be in the cpi context
     pub governing_token_holding: AccountInfo<'info>,
     /// CHECK: Spl Governance CPI -- required only to be in the cpi context
