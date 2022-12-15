@@ -1,8 +1,8 @@
 [package]
 name = "anchor-comp"
-version = "0.2.3"
+version = "0.3.0"
 description = "Wrapper on SplGovernanceV3 (non anchor)"
-edition = "2021"
+edition = "2022"
 authors = ["alexcamill@gmail.com UXDProtocol::Acammm"]
 license = "Apache-2.0"
 
@@ -20,11 +20,10 @@ production = []
 development = []
 
 [dependencies]
-# Follows spl-governance
+# follows spl-governance
 solana-program = "1.14.6"
 
-# Needs to get latest version of anchor to match solana package
+# latest version of anchor to match solana package
 anchor-lang = { git = "https://github.com/coral-xyz/anchor" }
 
-# spl-governance = { version = "2.2.4", features = ["no-entrypoint"] }
 spl-governance = { tag = "governance-v3.1.0", git = "https://github.com/solana-labs/solana-program-library", features = ["no-entrypoint"] }

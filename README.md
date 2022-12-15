@@ -1,6 +1,6 @@
 # anchor-comp
 
-Anchor wrapper for non anchor program. In v2, contains:
+Anchor wrapper for non anchor program. In v3, contains:
 
 - SplGovernanceV3 Solana program.
 

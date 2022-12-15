@@ -121,7 +121,7 @@ dependencies = [
 
 [[package]]
 name = "anchor-comp"
-version = "0.2.3"
+version = "0.3.0"
 dependencies = [
  "anchor-lang",
  "solana-program",
