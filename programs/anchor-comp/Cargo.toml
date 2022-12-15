@@ -1,6 +1,6 @@
 [package]
 name = "anchor-comp"
-version = "0.3.0"
+version = "0.3.1"
 description = "Wrapper on SplGovernanceV3 (non anchor)"
 edition = "2021"
 authors = ["alexcamill@gmail.com UXDProtocol::Acammm"]
